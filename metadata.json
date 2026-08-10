@@ -1,0 +1,6 @@
+{
+  "name": "AS META ADS PRO",
+  "description": "Ferramenta profissional de diagnóstico de campanhas de Meta Ads, checklist de erros e calculadoras para anunciantes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
