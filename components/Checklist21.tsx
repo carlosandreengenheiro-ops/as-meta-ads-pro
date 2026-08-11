@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CHECKLIST_21_ERRORS } from '../data/checklistErrors';
+import { CHECKLIST_21_ERRORS } from '../src/data/checklistErrors';
 import { ChecklistErrorItem } from '../types';
 import { 
   CheckSquare, Square, Filter, RefreshCw, BookOpen, ChevronDown, 
