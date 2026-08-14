@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ActiveTab } from './types';
 import { Header } from './components/Header';
 import { DiagnosticForm } from './components/DiagnosticForm';
@@ -24,9 +24,9 @@ export default function App() {
   // =========================================
   // CONTROLE DE ACESSO
   // =========================================
-  // O acesso fica ativo somente durante a sessão.
-  // Ao fechar o navegador/encerrar a sessão,
-  // será necessário digitar o código novamente.
+  // O acesso fica salvo somente na sessão atual.
+  // Ao fechar a aba ou o navegador, será necessário
+  // informar o código novamente.
 
   const [hasAccess, setHasAccess] = useState<boolean>(() => {
     return sessionStorage.getItem('as_meta_ads_access') === 'granted';
@@ -34,6 +34,16 @@ export default function App() {
 
   const [accessCode, setAccessCode] = useState('');
   const [accessError, setAccessError] = useState(false);
+
+  // =========================================
+  // REMOVE O ACESSO ANTIGO DO LOCALSTORAGE
+  // =========================================
+  // Isso limpa o sistema antigo que deixava
+  // o usuário logado permanentemente.
+
+  useEffect(() => {
+    localStorage.removeItem('as_meta_ads_access');
+  }, []);
 
   // =========================================
   // CÓDIGO DE ACESSO
@@ -46,7 +56,7 @@ export default function App() {
 
     if (accessCode.trim().toUpperCase() === APP_ACCESS_CODE) {
 
-      // Salva apenas durante a sessão atual
+      // Salva somente durante a sessão atual
       sessionStorage.setItem(
         'as_meta_ads_access',
         'granted'
