@@ -6,6 +6,7 @@ import { Checklist21 } from './components/Checklist21';
 import { Calculators } from './components/Calculators';
 import { MethodPro } from './components/MethodPro';
 import { FutureArchitectureNotice } from './components/FutureArchitectureNotice';
+
 import {
   ShieldCheck,
   LockKeyhole,
@@ -20,33 +21,50 @@ export default function App() {
   const [isArchNoticeOpen, setIsArchNoticeOpen] =
     useState<boolean>(false);
 
-  // Verifica se o usuário já liberou o acesso neste dispositivo
+  // =========================================
+  // CONTROLE DE ACESSO
+  // =========================================
+  // O acesso fica ativo somente durante a sessão.
+  // Ao fechar o navegador/encerrar a sessão,
+  // será necessário digitar o código novamente.
+
   const [hasAccess, setHasAccess] = useState<boolean>(() => {
-    return localStorage.getItem('as_meta_ads_access') === 'granted';
+    return sessionStorage.getItem('as_meta_ads_access') === 'granted';
   });
 
   const [accessCode, setAccessCode] = useState('');
   const [accessError, setAccessError] = useState(false);
 
-  // CÓDIGO TEMPORÁRIO DE ACESSO
-  // Depois vamos substituir por login individual dos compradores.
+  // =========================================
+  // CÓDIGO DE ACESSO
+  // =========================================
+
   const APP_ACCESS_CODE = 'META2026';
 
   const handleAccess = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (accessCode.trim().toUpperCase() === APP_ACCESS_CODE) {
-      localStorage.setItem('as_meta_ads_access', 'granted');
+
+      // Salva apenas durante a sessão atual
+      sessionStorage.setItem(
+        'as_meta_ads_access',
+        'granted'
+      );
+
       setHasAccess(true);
       setAccessError(false);
+
     } else {
+
       setAccessError(true);
+
     }
   };
 
-  // =========================
+  // =========================================
   // TELA DE ACESSO
-  // =========================
+  // =========================================
 
   if (!hasAccess) {
     return (
@@ -61,18 +79,23 @@ export default function App() {
 
             {/* Logo/Icon */}
             <div className="flex justify-center mb-6">
+
               <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+
                 <ShieldCheck
                   size={34}
                   className="text-amber-400"
                 />
+
               </div>
+
             </div>
 
             {/* Título */}
             <div className="text-center mb-8">
 
               <div className="flex items-center justify-center gap-2 mb-3">
+
                 <Sparkles
                   size={16}
                   className="text-amber-400"
@@ -81,6 +104,7 @@ export default function App() {
                 <span className="text-xs font-bold tracking-[0.2em] text-amber-400 uppercase">
                   Área exclusiva
                 </span>
+
               </div>
 
               <h1 className="text-2xl sm:text-3xl font-black text-white">
@@ -91,6 +115,7 @@ export default function App() {
                 Insira seu código de acesso para utilizar todas as
                 ferramentas, diagnósticos e análises estratégicas.
               </p>
+
             </div>
 
             {/* Formulário */}
@@ -100,6 +125,7 @@ export default function App() {
             >
 
               <div>
+
                 <label className="text-xs font-bold text-slate-300 mb-2 block">
                   CÓDIGO DE ACESSO
                 </label>
@@ -119,25 +145,31 @@ export default function App() {
                       setAccessError(false);
                     }}
                     placeholder="Digite seu código"
+                    autoComplete="off"
                     className="w-full bg-[#0b0c10] border border-[#303442] rounded-xl py-4 pl-12 pr-4 text-white placeholder:text-slate-600 outline-none focus:border-amber-500 transition-colors"
                   />
 
                 </div>
 
                 {accessError && (
+
                   <p className="text-xs text-red-400 mt-2">
                     Código inválido. Verifique e tente novamente.
                   </p>
+
                 )}
+
               </div>
 
               <button
                 type="submit"
                 className="w-full bg-amber-500 hover:bg-amber-400 text-[#0b0c10] font-black py-4 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
               >
+
                 ACESSAR A PLATAFORMA
 
                 <ArrowRight size={19} />
+
               </button>
 
             </form>
@@ -162,13 +194,14 @@ export default function App() {
           </p>
 
         </div>
+
       </div>
     );
   }
 
-  // =========================
+  // =========================================
   // APLICATIVO
-  // =========================
+  // =========================================
 
   return (
     <div className="min-h-screen bg-[#0b0c10] text-slate-100 font-sans selection:bg-amber-500/30 selection:text-amber-300 flex flex-col justify-between">
@@ -214,6 +247,7 @@ export default function App() {
 
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
 
+          {/* Informações */}
           <div className="space-y-1">
 
             <div className="flex items-center justify-center md:justify-start gap-2">
@@ -229,11 +263,14 @@ export default function App() {
             </div>
 
             <p className="text-xs text-slate-400">
-              Ferramenta estratégica para empresários, gestores de tráfego e anunciantes operarem com inteligência de dados.
+              Ferramenta estratégica para empresários,
+              gestores de tráfego e anunciantes operarem
+              com inteligência de dados.
             </p>
 
           </div>
 
+          {/* Navegação */}
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-slate-400">
 
             <button
@@ -272,8 +309,12 @@ export default function App() {
 
           </div>
 
+          {/* Copyright */}
           <div className="text-xs text-slate-500">
-            © {new Date().getFullYear()} AS META ADS PRO. Todos os direitos reservados.
+
+            © {new Date().getFullYear()} AS META ADS PRO.
+            Todos os direitos reservados.
+
           </div>
 
         </div>
